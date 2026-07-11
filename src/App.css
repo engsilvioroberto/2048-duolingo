@@ -1,0 +1,297 @@
+/* ═══════════════════════════════════════════
+   2048 Duolingo — Estilo Duolingo
+   ═══════════════════════════════════════════ */
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #F0FFE1;
+  color: #1A1A1A;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── App Shell ── */
+.app {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER — Duolingo green with bottom-round
+   ═══════════════════════════════════════════ */
+.header {
+  background: linear-gradient(135deg, #4BC300 0%, #78D22D 100%);
+  border-radius: 0 0 24px 24px;
+  padding: 20px 20px 24px;
+  margin: 0 -16px 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.scores {
+  display: flex;
+  gap: 8px;
+}
+
+.score-box {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+  padding: 6px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.score-label {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+.score-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.subtitle strong {
+  font-weight: 800;
+}
+
+/* ═══════════════════════════════════════════
+   BOARD
+   ═══════════════════════════════════════════ */
+.board-wrapper {
+  touch-action: none;
+  margin-bottom: 24px;
+}
+
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #D6E8C8;
+  border-radius: 16px;
+  padding: 8px;
+  aspect-ratio: 1;
+  box-shadow: 0 4px 12px rgba(75, 195, 0, 0.15);
+}
+
+/* ── Cells ── */
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.5);
+  border-radius: 10px;
+  aspect-ratio: 1;
+  transition: background 0.15s ease;
+  position: relative;
+}
+
+.cell-filled {
+  background: var(--cell-bg);
+  animation: pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cell-num {
+  font-weight: 800;
+  font-size: clamp(1rem, 4.5vw, 1.8rem);
+  color: var(--cell-text);
+  line-height: 1;
+  will-change: transform;
+}
+
+/* ── Tile pop animation ── */
+@keyframes pop {
+  0%   { transform: scale(0.8); opacity: 0.5; }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════
+   OVERLAYS
+   ═══════════════════════════════════════════ */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(240, 255, 225, 0.92);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  z-index: 10;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.overlay-box {
+  text-align: center;
+  padding: 24px;
+}
+
+.overlay-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.overlay-box h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #1A1A1A;
+}
+
+.overlay-box p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.overlay-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ═══════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #4BC300;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 0 #3C9600;
+  width: 100%;
+  letter-spacing: 0.3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #3C9600;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #4BC300;
+  box-shadow: inset 0 0 0 2px #4BC300;
+}
+.btn-outline:active {
+  background: rgba(75, 195, 0, 0.08);
+  transform: translateY(2px);
+  box-shadow: inset 0 0 0 2px #3C9600;
+}
+
+.controls {
+  margin-bottom: 16px;
+}
+
+.btn-new {
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════
+   HINT
+   ═══════════════════════════════════════════ */
+.hint {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #999;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — larger screens
+   ═══════════════════════════════════════════ */
+@media (min-width: 480px) {
+  .app {
+    padding: 0 24px 40px;
+  }
+  .header {
+    margin: 0 -24px 28px;
+    padding: 28px 24px 28px;
+  }
+  .title { font-size: 2.4rem; }
+}
+
+@media (max-height: 700px) {
+  .header { padding: 14px 20px 16px; margin-bottom: 16px; }
+  .header-top { margin-bottom: 4px; }
+  .subtitle { font-size: 0.7rem; }
+  .board-wrapper { margin-bottom: 16px; }
+  .board { gap: 6px; padding: 6px; }
+  .controls { margin-bottom: 8px; }
+  .btn { padding: 10px 24px; font-size: 0.9rem; }
+}
+
+@media (max-height: 600px) {
+  .header { padding: 10px 16px 12px; }
+  .title { font-size: 1.4rem; }
+  .score-box { min-width: 60px; padding: 4px 10px; }
+  .score-value { font-size: 1rem; }
+  .board { gap: 4px; padding: 4px; }
+  .cell-num { font-size: clamp(0.7rem, 3.5vw, 1rem); }
+}
