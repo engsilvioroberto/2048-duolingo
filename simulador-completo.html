@@ -104,8 +104,23 @@ table.t .tot td{font-weight:800;color:#1A1A1A;border-top:2px solid #4BC300;paddi
   <div id="notices"></div>
   <div class="params" id="params"></div>
   <div class="price" id="priceBox" style="display:none"></div>
-  <div class="comp" id="compBox" style="display:none"></div>
-  <div class="chart" id="chartBox" style="display:none"></div>
+  <div class="comp" id="compBox" style="display:none">
+    <h3>📋 Composição <span id="qtdIns"></span></h3>
+    <div class="leg">
+      <sp><span class="dt g"></span> Substituído</sp>
+      <sp><span class="dt k"></span> Inalterado</sp>
+    </div>
+    <div class="tw">
+      <table class="t" id="tabela">
+        <thead><tr><th>Código</th><th>Descrição</th><th>Un</th><th>Rend.</th><th>Preço Un.</th><th>Custo</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="chart" id="chartBox" style="display:none">
+    <h3>📊 Distribuição dos custos</h3>
+    <div class="bs" id="bars"></div>
+  </div>
 </div>
 
 <script>
