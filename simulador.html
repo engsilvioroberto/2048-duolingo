@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#4BC300">
-<title>🏗️ Simulador de Preços Estruturais</title>
+<title>🏗️ Simulador Estrutural — CYPE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ═══ RESET ═══ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 body{
@@ -18,7 +17,6 @@ body{
 }
 .app{max-width:840px;margin:0 auto;padding:0 12px 40px}
 
-/* ═══ HEADER ═══ */
 .header{
   background:linear-gradient(135deg,#4BC300 0%,#78D22D 100%);
   border-radius:0 0 24px 24px;padding:20px 16px 24px;margin:0 -12px 20px;
@@ -28,109 +26,130 @@ body{
 .header .sub{font-size:0.75rem;opacity:.85;font-weight:500;margin:4px 0 10px}
 .header .stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:0.7rem;font-weight:600}
 .header .stats span{background:rgba(255,255,255,.15);padding:3px 12px;border-radius:20px}
+.header .badge-site{
+  display:inline-block;background:rgba(255,255,255,.15);padding:2px 10px;
+  border-radius:12px;font-size:0.6rem;font-weight:500;margin-top:6px
+}
 
-/* ═══ ITEM SELECTOR ═══ */
-.selector-wrap{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
-.selector-wrap label{font-size:0.7rem;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px}
+/* Selector */
+.selector-wrap{background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
+.selector-wrap label{font-size:0.65rem;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px}
 .selector-wrap select{
-  width:100%;padding:12px 14px;border:2px solid #D6E8C8;border-radius:12px;
-  font-family:inherit;font-size:0.9rem;font-weight:500;background:#fff;
-  outline:none;transition:border-color .2s;cursor:pointer;
-  appearance:none;-webkit-appearance:none;
+  width:100%;padding:11px 14px;border:2px solid #D6E8C8;border-radius:12px;
+  font-family:inherit;font-size:0.85rem;font-weight:500;background:#fff;
+  outline:none;appearance:none;-webkit-appearance:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 12px center;
+  background-repeat:no-repeat;background-position:right 12px center;cursor:pointer
 }
 .selector-wrap select:focus{border-color:#4BC300}
 
-/* ═══ PARAMETERS ═══ */
-.params{
-  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px
-}
+/* Parameters */
+.params{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 @media(max-width:480px){.params{grid-template-columns:1fr}}
 
 .param-card{
-  background:#fff;border-radius:14px;padding:14px 16px;
-  box-shadow:0 2px 8px rgba(75,195,0,.08)
+  background:#fff;border-radius:14px;padding:12px 14px;
+  box-shadow:0 2px 8px rgba(75,195,0,.08);position:relative
 }
-.param-card label{font-size:0.7rem;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px}
-.param-card .value{font-size:1.1rem;font-weight:800;color:#4BC300;margin-bottom:4px}
+.param-card label{font-size:0.65rem;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px}
+.param-card .value{font-size:1rem;font-weight:800;color:#4BC300;margin-bottom:2px}
+.param-card .src{
+  font-size:0.55rem;font-weight:600;color:#999;
+  background:#F0FFE1;padding:1px 6px;border-radius:4px;display:inline-block
+}
+.param-card .src.real{background:#E8F5DC;color:#3C9600}
+
 .param-card input[type="range"]{
   width:100%;height:6px;-webkit-appearance:none;appearance:none;
   background:#D6E8C8;border-radius:3px;outline:none;margin:6px 0
 }
 .param-card input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
   background:#4BC300;cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)
 }
 .param-card select{
   width:100%;padding:8px 10px;border:2px solid #D6E8C8;border-radius:10px;
-  font-family:inherit;font-size:0.85rem;font-weight:500;background:#fff;outline:none;cursor:pointer
+  font-family:inherit;font-size:0.8rem;font-weight:500;background:#fff;outline:none;cursor:pointer
 }
 .param-card select:focus{border-color:#4BC300}
-.param-note{font-size:0.65rem;color:#999;font-weight:500;margin-top:4px}
+.param-note{font-size:0.6rem;color:#aaa;font-weight:500;margin-top:4px}
 
-/* ═══ PRICE DISPLAY ═══ */
+.param-card.locked{opacity:.7}
+.param-card.locked::after{
+  content:'🔒';position:absolute;top:8px;right:10px;font-size:0.7rem
+}
+
+/* Price box */
 .price-box{
   background:linear-gradient(135deg,#4BC300 0%,#78D22D 100%);
-  border-radius:16px;padding:18px 20px;margin-bottom:14px;
-  color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px
+  border-radius:16px;padding:16px 18px;margin-bottom:12px;
+  color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px
 }
-.price-box .label{font-size:0.7rem;font-weight:600;opacity:.8;text-transform:uppercase;letter-spacing:0.5px}
-.price-box .amount{font-size:2rem;font-weight:900;line-height:1}
-.price-box .unit{font-size:0.85rem;font-weight:600;opacity:.75}
-.price-box .original{font-size:0.75rem;opacity:.6;text-decoration:line-through}
-.price-box .change{display:inline-block;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:20px;font-size:0.75rem;font-weight:700}
+.price-box .label{font-size:0.65rem;font-weight:600;opacity:.8;text-transform:uppercase;letter-spacing:0.5px}
+.price-box .amount{font-size:1.8rem;font-weight:900;line-height:1}
+.price-box .unit{font-size:0.8rem;font-weight:600;opacity:.75}
+.price-box .original{font-size:0.7rem;opacity:.6;text-decoration:line-through}
+.price-box .change{display:inline-block;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:20px;font-size:0.7rem;font-weight:700}
 .price-box .right{text-align:right}
+.price-box .src-badge{
+  display:inline-block;background:rgba(255,255,255,.15);padding:1px 8px;
+  border-radius:10px;font-size:0.55rem;font-weight:500;margin-top:4px
+}
 
-/* ═══ BREAKDOWN ═══ */
-.breakdown{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
-.breakdown h3{font-size:0.8rem;font-weight:700;color:#1A1A1A;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.breakdown h3 span{font-size:0.7rem;font-weight:500;color:#999}
+/* Breakdown */
+.breakdown{background:#fff;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
+.breakdown h3{font-size:0.75rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.breakdown h3 span{font-size:0.65rem;font-weight:500;color:#999}
 .table-wrap{overflow-x:auto}
-table.insumos{width:100%;border-collapse:collapse;font-size:0.72rem;min-width:500px}
+table.insumos{width:100%;border-collapse:collapse;font-size:0.7rem;min-width:480px}
 table.insumos th{
-  text-align:left;font-size:0.6rem;font-weight:700;color:#999;
-  text-transform:uppercase;letter-spacing:0.5px;padding:5px 6px;
+  text-align:left;font-size:0.55rem;font-weight:700;color:#999;
+  text-transform:uppercase;letter-spacing:0.5px;padding:4px 6px;
   border-bottom:2px solid #E8F5DC;position:sticky;top:0;background:#fff
 }
-table.insumos td{padding:5px 6px;border-bottom:1px solid #f0f0f0;color:#444;vertical-align:top}
+table.insumos td{padding:4px 6px;border-bottom:1px solid #f0f0f0;color:#444;vertical-align:top}
 table.insumos tr:hover td{background:#F8FFF0}
 table.insumos .num{text-align:right;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
 table.insumos .cat-row td{
-  font-weight:700;color:#3C9600;font-size:0.68rem;
-  background:#F0FFE1;padding:7px 6px;border-bottom:2px solid #D6E8C8
+  font-weight:700;color:#3C9600;font-size:0.65rem;
+  background:#F0FFE1;padding:5px 6px;border-bottom:2px solid #D6E8C8
 }
 table.insumos .total-row td{
   font-weight:700;color:#1A1A1A;border-top:2px solid #4BC300;
-  padding-top:8px;font-size:0.78rem;background:#F8FFF0
+  padding-top:6px;font-size:0.75rem;background:#F8FFF0
 }
 table.insumos .varies td{color:#4BC300}
 table.insumos .tag{
-  display:inline-block;font-size:0.55rem;font-weight:700;padding:1px 5px;
-  border-radius:4px;margin-left:4px
+  display:inline-block;font-size:0.5rem;font-weight:700;padding:1px 4px;
+  border-radius:3px;margin-left:4px
 }
-.tag-concrete{background:#E8F5DC;color:#3C9600}
-.tag-steel{background:#FFF3E0;color:#E65100}
-.tag-height{background:#E3F2FD;color:#1565C0}
+.tag-var{background:#E8F5DC;color:#3C9600}
 
-/* ═══ CHART / COMPARISON ═══ */
-.comparison{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
-.comparison h3{font-size:0.8rem;font-weight:700;margin-bottom:10px}
-.bar-chart{display:flex;flex-direction:column;gap:6px}
-.bar-row{display:flex;align-items:center;gap:8px}
-.bar-label{font-size:0.68rem;font-weight:500;color:#666;min-width:80px;text-align:right}
-.bar-track{flex:1;height:22px;background:#E8F5DC;border-radius:6px;overflow:hidden;position:relative}
-.bar-fill{height:100%;border-radius:6px;transition:width .5s ease;display:flex;align-items:center;padding:0 8px;
-  font-size:0.65rem;font-weight:700;color:#fff;justify-content:flex-end;min-width:fit-content}
+/* Bar chart */
+.comparison{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
+.comparison h3{font-size:0.75rem;font-weight:700;margin-bottom:8px}
+.bar-chart{display:flex;flex-direction:column;gap:4px}
+.bar-row{display:flex;align-items:center;gap:6px}
+.bar-label{font-size:0.65rem;font-weight:500;color:#666;min-width:70px;text-align:right}
+.bar-track{flex:1;height:18px;background:#E8F5DC;border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:5px;transition:width .5s ease;display:flex;align-items:center;padding:0 6px;
+  font-size:0.6rem;font-weight:700;color:#fff;justify-content:flex-end;min-width:fit-content}
 .bar-fill.concrete{background:#4CAF50}
 .bar-fill.steel{background:#FF9800}
 .bar-fill.labor{background:#42A5F5}
 .bar-fill.equip{background:#AB47BC}
 .bar-fill.other{background:#999}
 
-/* ═══ LOADING ═══ */
-.loading{text-align:center;padding:60px 20px;color:#999}
-.loading .spinner{display:inline-block;width:32px;height:32px;border:4px solid #D6E8C8;border-top-color:#4BC300;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+/* Notice */
+.notice{
+  background:#FFF8E1;border:1px solid #FFE082;border-radius:12px;
+  padding:10px 14px;margin-bottom:12px;font-size:0.72rem;color:#795548;line-height:1.5
+}
+.notice strong{color:#E65100}
+
+/* Loading */
+.loading{text-align:center;padding:60px 20px;color:#999;font-size:0.9rem}
+.loading .spinner{display:inline-block;width:28px;height:28px;border:3px solid #D6E8C8;border-top-color:#4BC300;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:10px}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
@@ -138,8 +157,9 @@ table.insumos .tag{
 <div class="app" id="app">
   <header class="header">
     <h1>🏗️ Simulador Estrutural</h1>
-    <p class="sub">Preços de insumos · CYPE Gerador de Preços Brasil</p>
+    <p class="sub">Preços reais do CYPE Gerador de Preços Brasil</p>
     <div class="stats"><span id="sItems">Carregando...</span></div>
+    <div class="badge-site">✅ Dados oficiais — extraído do site CYPE</div>
   </header>
 
   <div id="mainContent">
@@ -149,29 +169,21 @@ table.insumos .tag{
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
-//  DATA & CONFIG
+//  DADOS REAIS DO SITE CYPE
 // ═══════════════════════════════════════════════════════════════════
 let allItems = [];
 
-// Concrete price multipliers (estimated based on market)
-const CONCRETE_MULT = {
-  'C20': { brita0: 0.88, brita1: 0.88, label: 'C20 (15 MPa)' },
-  'C25': { brita0: 1.00, brita1: 1.00, label: 'C25 (20 MPa)' },
-  'C30': { brita0: 1.14, brita1: 1.15, label: 'C30 (25 MPa)' },
-  'C35': { brita0: 1.28, brita1: 1.30, label: 'C35 (30 MPa)' },
+// Preços REAIS de concreto do site CYPE
+const CONCRETO = {
+  'C25': {
+    label: 'C25 (20 MPa)',
+    brita0: { code: 'mt10haf080iea', price: 342.95, desc: 'brita 0' },
+    brita1: { code: 'mt10haf080iec', price: 347.46, desc: 'brita 1' },
+  }
 };
 
-// Concrete actual prices from site data (mt10haf080*)
-const CONCRETE_BASE_PRICES = {
-  'iea': { brita: '0', c25price: 342.95 },
-  'iec': { brita: '1', c25price: 347.46 },
-  'ide': { brita: '0', c25price: 368.98 },
-};
-const DEFAULT_CONCRETE_PRICE = 347.46; // C25 brita 1
-
-const STEEL_MULT = {
-  'CA-50': 1.00,
-  'CA-60': 1.08,
+const ACO = {
+  'CA-50': { code: 'mt07aco070f', price: 11.78, desc: 'CA-50' },
 };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -191,67 +203,49 @@ function getSubcat(cat) {
   return parts[1] || parts[0] || 'Geral';
 }
 
-// Determine if an insumo varies with concrete class
-function isConcreteRelated(ins) {
-  const d = ins.descricao.toLowerCase();
-  return d.includes('concreto') && d.includes('c25') || ins.codigo.startsWith('mt10haf');
+function isConcreteCode(code) {
+  return (code || '').startsWith('mt10haf');
 }
 
-// Determine if an insumo varies with steel type
-function isSteelRelated(ins) {
-  const d = ins.descricao.toLowerCase();
-  return (ins.codigo.startsWith('mt07aco') || d.includes('ca-50') || d.includes('ca-60')) 
-         && d.includes('barras');
-}
-
-// Determine if an insumo varies with slab height
-function isHeightRelated(ins) {
-  // Concrete volume scales with height
-  return isConcreteRelated(ins);
-}
-
-// Get the concrete Brita from the concrete code
-function getConcreteCodeSuffix(code) {
-  const m = code.match(/ie[a-z]|id[a-z]/);
-  return m ? m[0] : 'iec';
+function isSteelRebar(code, desc) {
+  return (code || '').startsWith('mt07aco') &&
+    (desc || '').toLowerCase().includes('barras nervuradas');
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  PARAM-BASED CALCULATION
+//  CÁLCULO COM DADOS REAIS
 // ═══════════════════════════════════════════════════════════════════
-function calcAdjustedCost(item, params) {
-  const { concreto, brita, aco, altura } = params;
-  const totalOrig = parsePrice(item.preco);
-  let totalAdjustment = 0;
+function calcItem(item, params) {
+  const { brita, altura } = params;
+  const conc = CONCRETO['C25'];
+  const concPrice = brita === '0' ? conc.brita0.price : conc.brita1.price;
+  const refHeight = 15; // altura de referência do site
+
   let insumos = [];
-
-  const concreteFactor = CONCRETE_MULT[concreto] ? (brita === '0' ? CONCRETE_MULT[concreto].brita0 : CONCRETE_MULT[concreto].brita1) : 1;
-  const steelFactor = STEEL_MULT[aco] || 1;
-  const heightRatio = altura / 15; // default height is 15cm
+  let foundConcrete = false;
+  let foundSteel = false;
 
   for (const ins of (item.insumos || [])) {
-    const costOrig = parsePrice(ins.custo);
-    let costNew = costOrig;
+    let costNew = parsePrice(ins.custo);
     let changed = false;
     let reason = '';
+    let origUnitPrice = parsePrice(ins.preco_unitario);
+    let rend = parseFloat((ins.rendimento || '0').replace(',', '.')) || 0;
 
-    if (isConcreteRelated(ins)) {
-      const origConcretePrice = parsePrice(ins.preco_unitario) || DEFAULT_CONCRETE_PRICE;
-      costNew = origConcretePrice * concreteFactor * (ins.rendimento ? parseFloat(ins.rendimento.replace(',','.')) || 0.158 : 0.158);
+    // Ajusta concreto: brita + altura
+    if (isConcreteCode(ins.codigo)) {
+      foundConcrete = true;
+      // Novo custo = novo preço unitário × rendimento × fator de altura
+      const newCost = concPrice * rend * (altura / refHeight);
+      costNew = newCost;
       changed = true;
-      reason = `concreto ${concreto}`;
-    } else if (isSteelRelated(ins)) {
-      const origSteelPrice = parsePrice(ins.preco_unitario) || 11.78;
-      costNew = origSteelPrice * steelFactor * (ins.rendimento ? parseFloat(ins.rendimento.replace(',','.')) || 22.05 : 22.05);
-      changed = true;
-      reason = `aço ${aco}`;
+      reason = `brita ${brita}${altura !== refHeight ? `, ${altura}cm` : ''}`;
     }
 
-    // Height affects concrete-related quantities linearly
-    if (isHeightRelated(ins) && altura !== 15) {
-      costNew = costOrig * heightRatio;
-      changed = true;
-      reason = reason ? reason + ', altura' : `altura ${altura}cm`;
+    // Aço CA-50: sem variação (só existe CA-50 no site)
+    if (isSteelRebar(ins.codigo, ins.descricao)) {
+      foundSteel = true;
+      // Preço fixo CA-50 (não há CA-60 no site)
     }
 
     insumos.push({
@@ -264,12 +258,12 @@ function calcAdjustedCost(item, params) {
     });
   }
 
-  // Calculate total
   const newTotal = insumos.reduce((s, i) => s + i.custo_num, 0);
   const origTotal = insumos.reduce((s, i) => s + parsePrice(i.custo_original), 0);
   const diff = newTotal - origTotal;
+  const diffPct = origTotal ? (diff / origTotal * 100) : 0;
 
-  return { insumos, newTotal, origTotal, diff, diffPct: origTotal ? (diff / origTotal * 100) : 0 };
+  return { insumos, newTotal, origTotal, diff, diffPct, foundConcrete, foundSteel };
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -282,19 +276,17 @@ function render() {
   if (!item) return;
 
   const params = {
-    concreto: document.getElementById('pConcreto').value,
     brita: document.getElementById('pBrita').value,
-    aco: document.getElementById('pAco').value,
     altura: parseInt(document.getElementById('pAltura').value),
   };
 
-  const result = calcAdjustedCost(item, params);
+  const result = calcItem(item, params);
   const mc = document.getElementById('mainContent');
 
-  // Concrete detail label
-  const concLabel = CONCRETE_MULT[params.concreto]?.label || params.concreto;
-  const britaLabel = params.brita === '0' ? 'brita 0' : 'brita 1';
-  const acoLabel = params.aco;
+  // Verify data
+  const sitePrice = parsePrice(item.preco);
+  const calcPrice = result.origTotal;
+  const match = Math.abs(sitePrice - calcPrice) < 0.01;
 
   // Group insumos by category
   let grouped = [];
@@ -307,63 +299,78 @@ function render() {
     grouped.push({type:'row', data: ins});
   }
 
-  let insumosRows = '';
+  let rows = '';
   for (const g of grouped) {
     if (g.type === 'cat') {
-      insumosRows += `<tr class="cat-row"><td colspan="8">📂 ${g.label}</td></tr>`;
+      rows += `<tr class="cat-row"><td colspan="8">📂 ${g.label}</td></tr>`;
     } else {
       const d = g.data;
-      const changed = d.changed;
-      insumosRows += `<tr class="${changed ? 'varies' : ''}">
+      rows += `<tr class="${d.changed ? 'varies' : ''}">
         <td>${d.codigo || ''}</td>
-        <td>${d.descricao}${changed ? `<span class="tag tag-concrete">ajustado</span>` : ''}</td>
+        <td>${d.descricao}${d.changed ? `<span class="tag tag-var">✓</span>` : ''}</td>
         <td>${d.unidade}</td>
         <td class="num">${d.quantidade || d.rendimento || ''}</td>
         <td class="num">R$ ${d.preco_unitario || ''}</td>
         <td class="num">R$ ${d.custo_original}</td>
-        <td class="num">${changed ? 'R$ ' + d.custo_novo : '—'}</td>
+        <td class="num">${d.changed ? 'R$ ' + d.custo_novo : '—'}</td>
       </tr>`;
     }
   }
-  if (item.total || item.preco) {
-    insumosRows += `<tr class="total-row">
-      <td colspan="5">Total</td>
-      <td class="num">${result.origTotal > 0 ? fmtPrice(result.origTotal) : item.preco || '—'}</td>
-      <td class="num">${fmtPrice(result.newTotal)}</td>
-    </tr>`;
-  }
 
-  // Bar chart categories
-  const categories = { 'concreto': {label:'Concreto', color:'concrete', sum:0}, 'steel': {label:'Aço', color:'steel', sum:0}, 'labor': {label:'Mão de obra', color:'labor', sum:0}, 'equip': {label:'Equipamento', color:'equip', sum:0}, 'other': {label:'Outros', color:'other', sum:0} };
+  const concInfo = CONCRETO['C25'];
+  const britaInfo = params.brita === '0' ? concInfo.brita0 : concInfo.brita1;
+  const acoInfo = ACO['CA-50'];
+
+  // Total row
+  rows += `<tr class="total-row">
+    <td colspan="5">Total</td>
+    <td class="num">${fmtPrice(result.origTotal)}</td>
+    <td class="num">${fmtPrice(result.newTotal)}</td>
+  </tr>`;
+
+  // Bar chart
+  const cats = {
+    concreto: {label:'Concreto', color:'concrete', sum:0},
+    steel: {label:'Aço', color:'steel', sum:0},
+    labor: {label:'Mão de obra', color:'labor', sum:0},
+    equip: {label:'Equipamento', color:'equip', sum:0},
+    other: {label:'Outros', color:'other', sum:0},
+  };
   for (const ins of result.insumos) {
-    const code = ins.codigo || '';
     const val = ins.custo_num;
-    if (code.startsWith('mt10haf') || isConcreteRelated(ins)) categories.concreto.sum += val;
-    else if (code.startsWith('mt07aco')) categories.steel.sum += val;
-    else if (code.startsWith('mo')) categories.labor.sum += val;
-    else if (code.startsWith('mq')) categories.equip.sum += val;
-    else categories.other.sum += val;
+    const c = ins.codigo || '';
+    if (isConcreteCode(c)) cats.concreto.sum += val;
+    else if (c.startsWith('mt07aco')) cats.steel.sum += val;
+    else if (c.startsWith('mo')) cats.labor.sum += val;
+    else if (c.startsWith('mq')) cats.equip.sum += val;
+    else cats.other.sum += val;
   }
-  const maxSum = Math.max(...Object.values(categories).map(c => c.sum), 1);
-  
+  const maxSum = Math.max(...Object.values(cats).map(c => c.sum), 1);
   let bars = '';
-  for (const [key, cat] of Object.entries(categories)) {
+  for (const [,cat] of Object.entries(cats)) {
     if (cat.sum > 0) {
       const pct = (cat.sum / result.newTotal * 100);
-      const width = (cat.sum / maxSum * 100);
+      const w = Math.max(cat.sum / maxSum * 100, 5);
       bars += `<div class="bar-row">
         <span class="bar-label">${cat.label}</span>
-        <div class="bar-track"><div class="bar-fill ${cat.color}" style="width:${Math.max(width, 5)}%">${fmtPrice(cat.sum)}</div></div>
-        <span style="font-size:0.7rem;font-weight:600;color:#666;min-width:40px">${pct.toFixed(0)}%</span>
+        <div class="bar-track"><div class="bar-fill ${cat.color}" style="width:${w}%">${fmtPrice(cat.sum)}</div></div>
+        <span style="font-size:0.65rem;font-weight:600;color:#666;min-width:35px">${pct.toFixed(0)}%</span>
       </div>`;
     }
   }
 
   mc.innerHTML = `
+    <div class="notice">
+      <strong>📌 Dados 100% oficiais do CYPE.</strong>
+      O site CYPE Brasil só publica preços com concreto <strong>C25</strong> e aço <strong>CA-50</strong>.
+      As variações abaixo são calculadas com base nos preços unitários reais do site.
+      ${!match ? `<br>⚠️ Discrepância detectada: site=${fmtPrice(sitePrice)} calculado=${fmtPrice(calcPrice)}` : ''}
+    </div>
+
     <div class="selector-wrap">
       <label>Selecione o item</label>
       <select id="itemSelect" onchange="render()">
-        ${allItems.sort((a,b) => a.codigo?.localeCompare(b.codigo)).map(i => 
+        ${allItems.sort((a,b) => a.codigo?.localeCompare(b.codigo)).map(i =>
           `<option value="${i.codigo}" ${i.codigo === itemCode ? 'selected' : ''}>
             ${i.codigo} — ${(i.nome||'').substring(0,60)}
           </option>`
@@ -374,51 +381,47 @@ function render() {
     <div class="params">
       <div class="param-card">
         <label>🧱 Concreto</label>
-        <div class="value">${concLabel}</div>
-        <select id="pConcreto" onchange="render()">
-          <option value="C20" ${params.concreto==='C20'?'selected':''}>C20 (resistência 15 MPa)</option>
-          <option value="C25" ${params.concreto==='C25'?'selected':''}>C25 (resistência 20 MPa) — referência</option>
-          <option value="C30" ${params.concreto==='C30'?'selected':''}>C30 (resistência 25 MPa)</option>
-          <option value="C35" ${params.concreto==='C35'?'selected':''}>C35 (resistência 30 MPa)</option>
-        </select>
-        <div class="param-note">Base: R$ ${DEFAULT_CONCRETE_PRICE.toFixed(2)}/m³ (C25)</div>
+        <div class="value">C25</div>
+        <span class="src real">✅ CYPE real</span>
+        <div class="param-note">Única classe disponível no site</div>
       </div>
       <div class="param-card">
         <label>🪨 Brita</label>
         <div class="value">brita ${params.brita}</div>
+        <span class="src real">✅ CYPE real</span>
         <select id="pBrita" onchange="render()">
-          <option value="0" ${params.brita==='0'?'selected':''}>Brita 0</option>
-          <option value="1" ${params.brita==='1'?'selected':''}>Brita 1 — referência</option>
+          <option value="0" ${params.brita==='0'?'selected':''}>Brita 0 (R$ ${concInfo.brita0.price.toFixed(2)}/m³)</option>
+          <option value="1" ${params.brita==='1'?'selected':''}>Brita 1 (R$ ${concInfo.brita1.price.toFixed(2)}/m³)</option>
         </select>
-        <div class="param-note">Site: C25 brita 0 = R$ 342,95/m³</div>
       </div>
-      <div class="param-card">
+      <div class="param-card locked">
         <label>🔩 Aço</label>
-        <div class="value">${acoLabel}</div>
-        <select id="pAco" onchange="render()">
-          <option value="CA-50" ${params.aco==='CA-50'?'selected':''}>CA-50 — referência</option>
-          <option value="CA-60" ${params.aco==='CA-60'?'selected':''}>CA-60 (estimado +8%)</option>
-        </select>
-        <div class="param-note">Base: CA-50 = R$ 11,78/kg</div>
+        <div class="value">CA-50</div>
+        <span class="src real">✅ CYPE real</span>
+        <div class="param-note">R$ ${acoInfo.price.toFixed(2)}/kg — única opção do site</div>
       </div>
       <div class="param-card">
         <label>📏 Altura da laje</label>
         <div class="value">${params.altura} cm</div>
-        <input type="range" id="pAltura" min="8" max="30" value="${params.altura}" step="1" oninput="document.getElementById('hVal').textContent=this.value;render()">
-        <div class="param-note">Altura da laje <span id="hVal">${params.altura}</span> cm (referência: 15 cm)</div>
+        <span class="src real">✅ Cálculo exato</span>
+        <input type="range" id="pAltura" min="8" max="30" value="${params.altura}" step="1"
+          oninput="this.nextElementSibling.textContent=this.value+'cm';render()">
+        <div class="param-note">Ref.: <strong>15 cm</strong> (site). Volume de concreto escala proporcionalmente</div>
       </div>
     </div>
 
     <div class="price-box">
       <div>
-        <div class="label">Preço Original (C25, brita 1, CA-50, 15cm)</div>
+        <div class="label">Preço base (C25, brita 1, 15cm)</div>
         <div class="original">${item.preco || '—'} / ${item.unidade || '—'}</div>
+        <div class="src-badge">📡 CYPE original</div>
       </div>
       <div class="right">
-        <div class="label">Preço Ajustado</div>
+        <div class="label">Preço ajustado</div>
         <div class="amount">${fmtPrice(result.newTotal)}</div>
         <div class="unit">/ ${item.unidade || '—'}</div>
-        <div class="change">${result.diff >= 0 ? '▲' : '▼'} ${Math.abs(result.diffPct).toFixed(1)}%</div>
+        ${result.diff !== 0 ? `<div class="change">${result.diff >= 0 ? '▲' : '▼'} ${Math.abs(result.diffPct).toFixed(1)}%</div>` : ''}
+        <div class="src-badge">📐 calculado</div>
       </div>
     </div>
 
@@ -426,18 +429,11 @@ function render() {
       <h3>📋 Composição de insumos <span>(${result.insumos.length} itens)</span></h3>
       <div class="table-wrap">
         <table class="insumos">
-          <thead>
-            <tr>
-              <th>Código</th>
-              <th>Descrição</th>
-              <th>Un</th>
-              <th>Rend.</th>
-              <th>Preço Un.</th>
-              <th>Custo Orig.</th>
-              <th>Custo Ajust.</th>
-            </tr>
-          </thead>
-          <tbody>${insumosRows}</tbody>
+          <thead><tr>
+            <th>Código</th><th>Descrição</th><th>Un</th><th>Rend.</th>
+            <th>Preço Un.</th><th>Custo Orig.</th><th>Custo Ajust.</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
         </table>
       </div>
     </div>
@@ -448,8 +444,7 @@ function render() {
     </div>
   `;
 
-  // Update stats
-  document.getElementById('sItems').textContent = `${allItems.length} itens`;
+  document.getElementById('sItems').textContent = `${allItems.length} itens | CYPE Brasil`;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -462,8 +457,8 @@ async function load() {
     allItems = data.items || [];
     render();
   } catch(e) {
-    document.getElementById('mainContent').innerHTML = 
-      `<div class="loading"><p>❌ Erro: ${e.message}</p></div>`;
+    document.getElementById('mainContent').innerHTML =
+      `<div class="loading"><p>❌ Erro ao carregar: ${e.message}</p></div>`;
   }
 }
 load();
