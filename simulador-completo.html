@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#4BC300">
+<title>🏗️ Simulador Estruturas — 95 itens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',sans-serif;background:#F0FFE1;color:#1A1A1A;min-height:100dvh;overflow-x:hidden}
+.app{max-width:860px;margin:0 auto;padding:0 10px 40px}
+.header{background:linear-gradient(135deg,#4BC300,#78D22D);border-radius:0 0 24px 24px;padding:18px 14px 22px;margin:0 -10px 16px;color:#fff;text-align:center}
+.header h1{font-size:1.1rem;font-weight:900}
+.header .sub{font-size:.68rem;opacity:.85;margin:3px 0 8px}
+.header .sel{margin-top:8px}
+.header .sel select{width:100%;max-width:500px;padding:9px 12px;border:2px solid rgba(255,255,255,.3);border-radius:12px;font-family:inherit;font-size:.82rem;font-weight:600;background:rgba(255,255,255,.15);color:#fff;outline:none;appearance:none;cursor:pointer}
+.header .sel select option{color:#1A1A1A;background:#fff}
+
+.tag{display:inline-block;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:8px;font-size:.62rem;font-weight:500;margin:2px}
+.tag.b{background:#E8F5DC;color:#3C9600;font-weight:600}
+.tag.o{background:#FFF3E0;color:#E65100;font-weight:600}
+.tag .src{background:#E8F5DC;padding:0 4px;border-radius:3px;color:#3C9600;font-size:.5rem;font-weight:600}
+.tag .src.est{background:#FFF3E0;color:#E65100}
+
+.params{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+@media(max-width:480px){.params{grid-template-columns:1fr}}
+.pc{background:#fff;border-radius:10px;padding:8px 10px;box-shadow:0 1px 4px rgba(75,195,0,.06)}
+.pc label{font-size:.55rem;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.3px;display:flex;align-items:center;gap:4px;margin-bottom:2px}
+.pc .v{font-size:.82rem;font-weight:800;color:#4BC300;margin-bottom:2px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.pc .t{font-size:.5rem;font-weight:600;padding:1px 5px;border-radius:3px;display:inline-block}
+.pc select{width:100%;padding:6px 8px;border:2px solid #D6E8C8;border-radius:8px;font-family:inherit;font-size:.72rem;font-weight:500;background:#fff;outline:none;cursor:pointer;appearance:none}
+.pc select:focus{border-color:#4BC300}
+.pc input[type=range]{width:100%;height:4px;-webkit-appearance:none;background:#D6E8C8;border-radius:2px;outline:none;margin:4px 0}
+.pc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:#4BC300;cursor:pointer;border:3px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.pc .note{font-size:.52rem;color:#aaa;margin-top:1px}
+.pc .btn{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border:2px solid #D6E8C8;border-radius:16px;font-size:.65rem;font-weight:600;font-family:inherit;background:#fff;cursor:pointer;color:#666;margin-top:1px;transition:all .2s}
+.pc .btn.on{background:#E8F5DC;border-color:#4BC300;color:#3C9600;font-weight:700}
+
+.price{background:linear-gradient(135deg,#4BC300,#78D22D);border-radius:14px;padding:12px 14px;margin-bottom:10px;color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.price .l{font-size:.55rem;font-weight:600;opacity:.8;text-transform:uppercase;letter-spacing:.4px}
+.price .o{font-size:.62rem;opacity:.45;text-decoration:line-through}
+.price .a{font-size:1.5rem;font-weight:900;line-height:1}
+.price .u{font-size:.68rem;font-weight:600;opacity:.7}
+.price .d{display:inline-block;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:14px;font-size:.62rem;font-weight:700}
+.price .r{text-align:right}
+
+.comp{background:#fff;border-radius:14px;padding:10px;margin-bottom:10px;box-shadow:0 1px 4px rgba(75,195,0,.06)}
+.comp h3{font-size:.65rem;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.comp h3 span{font-size:.55rem;font-weight:500;color:#999}
+.leg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;font-size:.5rem}
+.leg sp{display:flex;align-items:center;gap:2px}
+.dt{width:6px;height:6px;border-radius:50%;display:inline-block}
+.dt.g{background:#4BC300}
+.dt.k{background:#ccc}
+.tw{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:.6rem;min-width:460px}
+table.t th{text-align:left;font-size:.48rem;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.3px;padding:3px 4px;border-bottom:2px solid #E8F5DC;background:#fff}
+table.t td{padding:3px 4px;border-bottom:1px solid #f0f0f0;color:#444;vertical-align:top}
+table.t .al{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+table.t .s td{background:#F0FFE1;border-bottom:1px solid #4BC300;color:#1A1A1A}
+table.t .s td:first-child{padding-left:14px}
+table.t .s td:first-child::before{content:'🔄';position:absolute;margin-left:-13px;font-size:.48rem}
+table.t .r td{color:#ccc}
+table.t .tot td{font-weight:800;color:#1A1A1A;border-top:2px solid #4BC300;padding-top:5px;font-size:.65rem;background:#F8FFF0}
+
+.chart{background:#fff;border-radius:14px;padding:10px;box-shadow:0 1px 4px rgba(75,195,0,.06)}
+.chart h3{font-size:.65rem;font-weight:700;margin-bottom:5px}
+.bs{display:flex;flex-direction:column;gap:2px}
+.br{display:flex;align-items:center;gap:4px}
+.bl{font-size:.55rem;font-weight:500;color:#666;min-width:55px;text-align:right}
+.btr{flex:1;height:12px;background:#E8F5DC;border-radius:3px;overflow:hidden}
+.bf{height:100%;border-radius:3px;transition:width .5s;display:flex;align-items:center;padding:0 4px;font-size:.48rem;font-weight:700;color:#fff;justify-content:flex-end;min-width:fit-content}
+.bf.c{background:#4CAF50}
+.bf.s{background:#FF9800}
+.bf.l{background:#42A5F5}
+.bf.e{background:#AB47BC}
+.bf.f{background:#78909C}
+.bf.o{background:#999}
+.bp{font-size:.52rem;font-weight:600;color:#666;min-width:28px}
+.av{display:flex;gap:3px;flex-wrap:wrap}
+.av sp{font-size:.5rem;padding:1px 5px;border-radius:3px}
+.av .disp{background:#E8F5DC;color:#3C9600}
+.av .nd{background:#f0f0f0;color:#ccc}
+
+.notice{background:#FFF8E1;border:1px solid #FFE082;border-radius:10px;padding:7px 11px;margin-bottom:10px;font-size:.6rem;color:#795548;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <h1>🏗️ Simulador Estrutural</h1>
+    <p class="sub">95 itens · composição paramétrica com substituição de insumos</p>
+    <div class="sel">
+      <select id="selItem" onchange="carregarItem()">
+        <option value="">Carregando...</option>
+      </select>
+    </div>
+  </header>
+
+  <div id="notices"></div>
+  <div class="params" id="params"></div>
+  <div class="price" id="priceBox" style="display:none"></div>
+  <div class="comp" id="compBox" style="display:none"></div>
+  <div class="chart" id="chartBox" style="display:none"></div>
+</div>
+
+<script>
+const CONCRETO = {C20:{b0:305.76,b1:308.56},C25:{b0:342.95,b1:347.46},C30:{b0:392.18,b1:396.10},C35:{b0:440.34,b1:444.75}};
+const ACO = {'CA-50':11.78,'CA-60':12.84};
+const AMORT = {6:1.8,12:1,20:.65,30:.45};
+
+let ITEMS = [];
+
+async function init(){
+  try {
+    const r = await fetch('precos_estruturas.json');
+    const d = await r.json();
+    ITEMS = d.items||[];
+    const sel = document.getElementById('selItem');
+    sel.innerHTML = '<option value="">Selecione um item...</option>' + 
+      ITEMS.sort((a,b)=>(a.codigo||'').localeCompare(b.codigo||''))
+        .map(i => `<option value="${i.codigo}">${i.codigo} — ${(i.nome||'').substring(0,55)}</option>`).join('');
+    if(ITEMS.length) carregarItem(ITEMS[0].codigo);
+  } catch(e) {
+    document.getElementById('selItem').innerHTML = '<option>Erro: '+e.message+'</option>';
+  }
+}
+
+function id(s){return document.getElementById(s)}
+
+function analisar(item){
+  const ins = item.insumos||[];
+  return {
+    conc: ins.filter(i => (i.codigo||'').startsWith('mt10haf')),
+    steel: ins.filter(i => (i.codigo||'').startsWith('mt07aco') && (i.descricao||'').toLowerCase().includes('barras')),
+    bomba: ins.filter(i => i.codigo==='mq06bhe010'),
+    form: ins.filter(i => (i.codigo||'').startsWith('mt08ebr')),
+    outros: ins.filter(i => !(i.codigo||'').startsWith('mt10haf') && !((i.codigo||'').startsWith('mt07aco')&&(i.descricao||'').toLowerCase().includes('barras')) && i.codigo!=='mq06bhe010' && !(i.codigo||'').startsWith('mt08ebr') && i.codigo!=='%'),
+  };
+}
+
+function getConcRend(item){
+  const a = analisar(item);
+  if(!a.conc.length) return 0;
+  return parseFloat((a.conc[0].rendimento||'0').replace(',','.'))||0;
+}
+
+function getSteelRend(item){
+  const a = analisar(item);
+  if(!a.steel.length) return 0;
+  return parseFloat((a.steel[0].rendimento||'0').replace(',','.'))||0;
+}
+
+function carregarItem(cod){
+  const sel = id('selItem');
+  cod = cod || sel.value;
+  if(!cod){ esconderTudo(); return; }
+  const item = ITEMS.find(i => i.codigo===cod);
+  if(!item){ esconderTudo(); return; }
+  sel.value = cod;
+  const a = analisar(item);
+  const refH = 15, refAco = getSteelRend(item) || 22.05;
+  const concRend = getConcRend(item);
+  
+  // Estado dos parâmetros (default)
+  const P = {conc:'C25', brita:'1', aco:'CA-50', altura:15, acoQty:refAco, bomba:true, amort:12};
+  
+  // Build params UI
+  let pHTML = '';
+  if(a.conc.length){
+    pHTML += `<div class="pc"><label>🧱 Concreto</label><div class="v" id="pvConc">C25</div><select id="ppConc" onchange="recalc()">
+      <option value="C20">C20</option><option value="C25" selected>C25 ✅ CYPE</option>
+      <option value="C30">C30</option><option value="C35">C35</option></select>
+      <div class="note">Preço C25 = real CYPE | demais = SINAPI</div></div>
+      <div class="pc"><label>🪨 Brita</label><div class="v" id="pvBrita">brita 1</div>
+      <select id="ppBrita" onchange="recalc()"><option value="0">Brita 0</option><option value="1" selected>Brita 1 ✅</option></select>
+      <div class="note">Brita 0 = R$ 342,95 · Brita 1 = R$ 347,46 (CYPE)</div></div>`;
+  }
+  if(a.steel.length){
+    pHTML += `<div class="pc"><label>🔩 Aço</label><div class="v" id="pvAco">CA-50</div>
+      <select id="ppAco" onchange="recalc()"><option value="CA-50" selected>CA-50 ✅ CYPE</option><option value="CA-60">CA-60</option></select>
+      <div class="note">CA-50 real CYPE · CA-60 = SINAPI</div></div>`;
+  }
+  if(concRend > 0){
+    const hBase = (concRend*100).toFixed(1);
+    pHTML += `<div class="pc"><label>📏 Altura/Espessura</label><div class="v" id="pvAltura">${hBase} cm (base)</div>
+      <input type="range" id="ppAltura" min="2" max="60" value="${Math.round(concRend*100)}" step="0.5" oninput="recalc()">
+      <div class="note">Ref.: ${hBase} cm · Volume de concreto escala 📐</div></div>`;
+  }
+  if(a.steel.length){
+    pHTML += `<div class="pc"><label>⚖️ Quant. Aço</label><div class="v" id="pvAcoQty">${refAco.toFixed(1)} kg (base)</div>
+      <input type="range" id="ppAcoQty" min="0.5" max="${Math.round(refAco*3)}" value="${refAco}" step="0.5" oninput="recalc()">
+      <div class="note">Ref.: ${refAco.toFixed(1)} kg/m² (ou unidade do item)</div></div>`;
+  }
+  if(a.bomba.length){
+    pHTML += `<div class="pc"><label>🚛 Bomba Concreto</label><div class="v" id="pvBomba">✅ Ligada</div>
+      <button class="btn on" id="ppBomba" onclick="this.classList.toggle('on');this.textContent=this.classList.contains('on')?'✅ Bomba ligada':'⊘ Sem bomba';recalc()">✅ Bomba ligada</button>
+      <div class="note">Caminhão bomba: R$ 744,87/h</div></div>`;
+  }
+  if(a.form.length){
+    pHTML += `<div class="pc"><label>🔄 Amortização Fôrmas</label><div class="v" id="pvAmort">12 usos</div>
+      <select id="ppAmort" onchange="recalc()"><option value="6">6 usos</option><option value="12" selected>12 usos ✅</option><option value="20">20 usos</option><option value="30">30 usos</option></select>
+      <div class="note">Amortização dos painéis de fôrma</div></div>`;
+  }
+  
+  if(!pHTML) pHTML = '<div class="pc" style="grid-column:1/-1;text-align:center;color:#999;padding:16px;font-size:.72rem">🔒 Item sem parâmetros variáveis — composição fixa do CYPE</div>';
+  id('params').innerHTML = pHTML;
+  
+  recalc();
+}
+
+function recalc(){
+  const sel = id('selItem');
+  const cod = sel.value;
+  const item = ITEMS.find(i=>i.codigo===cod);
+  if(!item) return;
+  
+  const a = analisar(item);
+  const concRend = getConcRend(item);
+  const refAco = getSteelRend(item) || 22.05;
+  
+  // Read params (with defaults for controls that may not exist)
+  const rv = (id)=> { const e=id(id); return e?e.value:null; };
+  const classe = rv('ppConc')||'C25';
+  const brita = rv('ppBrita')||'1';
+  const aco = rv('ppAco')||'CA-50';
+  const altura = rv('ppAltura') ? parseFloat(rv('ppAltura')) : (concRend*100);
+  const acoQty = rv('ppAcoQty') ? parseFloat(rv('ppAcoQty')) : refAco;
+  const bombaOn = id('ppBomba') ? id('ppBomba').classList.contains('on') : true;
+  const amort = rv('ppAmort') ? parseInt(rv('ppAmort')) : 12;
+  
+  const conc = CONCRETO[classe]||CONCRETO.C25;
+  const concP = brita==='0' ? conc.b0 : conc.b1;
+  const acoP = ACO[aco]||ACO['CA-50'];
+  const amortF = AMORT[amort]||1;
+  const refH = concRend*100 || 15;
+  
+  // Update display values
+  ['pvConc','pvBrita','pvAco','pvAcoQty','pvBomba','pvAmort','pvAltura'].forEach(k=>{
+    const e=id(k); if(!e)return;
+    if(k==='pvConc') e.textContent=classe;
+    else if(k==='pvBrita') e.textContent='brita '+brita;
+    else if(k==='pvAco') e.textContent=aco;
+    else if(k==='pvAcoQty') e.textContent=acoQty.toFixed(1).replace('.',',')+' kg (base: '+refAco.toFixed(1).replace('.',',')+')';
+    else if(k==='pvBomba') e.textContent=bombaOn?'✅ Ligada':'⊘ Desligada';
+    else if(k==='pvAmort') e.textContent=amort+' usos';
+    else if(k==='pvAltura') e.textContent=altura.toFixed(1).replace('.',',')+' cm (base: '+refH.toFixed(1).replace('.',',')+')';
+  });
+
+  // Detect sources
+  const srcs = [];
+  if(a.conc.length && classe!=='C25') srcs.push(`🧱 ${classe}: SINAPI`);
+  if(a.steel.length && aco==='CA-60') srcs.push(`🔩 CA-60: SINAPI`);
+  const srcHTML = srcs.length 
+    ? `<div class="notice"><strong>📌 Dados estimados:</strong> ${srcs.join(' · ')}. Demais = reais CYPE. <span class="tag b">CYPE</span> <span class="tag o">SINAPI</span></div>`
+    : `<div class="notice">✅ <strong>Todos os dados do CYPE.</strong> Composição extraída do gerador de preços.</div>`;
+  id('notices').innerHTML = srcHTML;
+
+  // Calculate composition
+  let soma = 0, rows = '', subs = 0;
+  const baseTotal = parseFloat((item.preco||'R$ 0').replace(/[R$\s.]/g,'').replace(',','.')) || 0;
+
+  for(const ins of (item.insumos||[])){
+    let pu = parseFloat((ins.preco_unitario||'0').replace(',','.'))||0;
+    let r = parseFloat((ins.rendimento||'0').replace(',','.'))||0;
+    let c = parseFloat((ins.custo||'0').replace(',','.'))||0;
+    let subst = false, remov = false, cod = ins.codigo||'';
+    const desc = ins.descricao||'';
+    
+    // Concrete substitution
+    if(a.conc.length && cod.startsWith('mt10haf')){
+      pu = concP;
+      r = concRend * (altura / refH);
+      c = pu * r;
+      subst = true;
+    }
+    // Steel substitution
+    else if(a.steel.length && cod.startsWith('mt07aco') && desc.toLowerCase().includes('barras')){
+      pu = acoP;
+      r = acoQty;
+      c = pu * r;
+      subst = true;
+    }
+    // Pump toggle
+    else if(cod==='mq06bhe010' && !bombaOn){
+      remov = true; c = 0; subst = true;
+    }
+    // Formwork amortization
+    else if(a.form.length && cod.startsWith('mt08ebr') && amortF!==1){
+      c = parseFloat((ins.custo||'0').replace(',','.')) * amortF;
+      pu *= amortF;
+      subst = true;
+    }
+    // % complementary (recalculate later)
+    else if(cod==='%'){
+      continue;
+    }
+    
+    soma += c;
+    const cls = remov?'r':(subst?'s':'');
+    const rStr = r.toFixed(3).replace('.',',').replace(/0+$/,'');
+    const puStr = pu.toFixed(2).replace('.',',');
+    const cStr = c ? 'R$ '+c.toFixed(2).replace('.',',') : '—';
+    rows += `<tr class="${cls}">
+      <td>${cod}${remov?'':''}</td>
+      <td>${desc.substring(0,45)}${subst&&!remov?' 🔄':''}${remov?' (removido)':''}</td>
+      <td>${ins.unidade||''}</td>
+      <td class="al">${rStr}</td>
+      <td class="al">${subst?'R$ '+puStr:'R$ '+ins.preco_unitario||'—'}</td>
+      <td class="al">${cStr}</td>
+    </tr>`;
+    if(subst||remov) subs++;
+  }
+  
+  const comp = soma * 0.02;
+  soma += comp;
+  rows += `<tr><td>%</td><td>Custos complementares (2%)</td><td>%</td><td class="al">2,000</td><td class="al">—</td><td class="al">R$ ${comp.toFixed(2).replace('.',',')}</td></tr>`;
+  rows += `<tr class="tot"><td colspan="3"><strong>TOTAL</strong></td><td></td><td></td><td class="al"><strong>R$ ${soma.toFixed(2).replace('.',',')}</strong></td></tr>`;
+  
+  id('tbody').innerHTML = rows;
+  id('tabela').style.display = 'table';
+  id('compBox').style.display = 'block';
+  
+  const diff = soma - baseTotal;
+  const dp = baseTotal ? (diff/baseTotal*100) : 0;
+  id('priceBox').style.display = 'flex';
+  id('priceBox').innerHTML = `
+    <div><div class="l">Preço base (CYPE)</div><div class="o">${item.preco||'—'} / ${item.unidade||'—'}</div></div>
+    <div class="r"><div class="l">Preço calculado</div>
+    <div class="a">R$ ${soma.toFixed(2).replace('.',',')}</div>
+    <div class="u">/ ${item.unidade||'—'}</div>
+    <div class="d">${Math.abs(dp)<0.01?'—':(diff>0?'▲':'▼')+Math.abs(dp).toFixed(1)+'%'}</div></div>`;
+  
+  id('qtdIns').textContent = (item.insumos||[]).length+' insumos';
+  
+  // Chart
+  const cats = {};
+  for(const ins of (item.insumos||[])){
+    let v = parseFloat((ins.custo||'0').replace(',','.'))||0;
+    const cod=ins.codigo||'', desc=ins.descricao||'';
+    if(cod.startsWith('mt10haf')){ v = concP * concRend * (altura/refH); }
+    else if(cod.startsWith('mt07aco') && desc.toLowerCase().includes('barras')){ v = acoP * acoQty; }
+    else if(cod==='mq06bhe010' && !bombaOn) v = 0;
+    else if(cod.startsWith('mt08ebr')) v *= amortF;
+    const g = cod.startsWith('mt10')?'Concreto':cod.startsWith('mt07aco')?'Aço':cod.startsWith('mo')?'Mão obra':cod.startsWith('mq')?'Equip.':cod.startsWith('mt08')?'Fôrmas':cod==='%'?'Comp.':'Outros';
+    cats[g] = (cats[g]||0) + v;
+  }
+  cats['Comp.'] = comp;
+  const maxV = Math.max(...Object.values(cats),1);
+  const cor = {Concreto:'c',Aço:'s','Mão obra':'l',Equip.:'e',Fôrmas:'f',Comp.:'o',Outros:'o'};
+  let bars = '';
+  for(const [cat,val] of Object.entries(cats)){
+    if(val<=0) continue;
+    const pct = soma? (val/soma*100):0, w = Math.max(val/maxV*100,3);
+    bars += `<div class="br"><span class="bl">${cat}</span><div class="btr"><div class="bf ${cor[cat]||'o'}" style="width:${w}%">R$ ${val.toFixed(2).replace('.',',')}</div></div><span class="bp">${pct.toFixed(0)}%</span></div>`;
+  }
+  id('chartBox').style.display = 'block';
+  id('bars').innerHTML = bars;
+}
+
+function esconderTudo(){
+  ['compBox','chartBox','priceBox'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
+}
+
+init();
+</script>
+</body>
+</html>
