@@ -271,7 +271,8 @@ function calcItem(item, params) {
 // ═══════════════════════════════════════════════════════════════════
 function render() {
   const itemSel = document.getElementById('itemSelect');
-  const itemCode = itemSel.value;
+  // Na primeira execução, usa o primeiro item como default
+  const itemCode = itemSel ? itemSel.value : (allItems[0] && allItems[0].codigo);
   const item = allItems.find(i => i.codigo === itemCode);
   if (!item) return;
 
