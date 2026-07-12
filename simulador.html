@@ -408,8 +408,7 @@ function render() {
         <label>📏 Altura da laje</label>
         <div class="value">${params.altura} cm</div>
         <span class="src real">✅ Cálculo exato</span>
-        <input type="range" id="pAltura" min="8" max="30" value="${params.altura}" step="1"
-          oninput="this.nextElementSibling.textContent=this.value+'cm';render()">
+        <input type="range" id="pAltura" min="8" max="30" value="${params.altura}" step="1" oninput="render()">
         <div class="param-note">Ref.: <strong>15 cm</strong> (site). Volume de concreto escala proporcionalmente</div>
       </div>
     </div>
