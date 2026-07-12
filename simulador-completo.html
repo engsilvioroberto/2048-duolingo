@@ -224,7 +224,7 @@ function recalc(){
   const refAco = getSteelRend(item) || 22.05;
   
   // Read params (with defaults for controls that may not exist)
-  const rv = (id)=> { const e=id(id); return e?e.value:null; };
+  const rv = (name)=> { const e = document.getElementById(name); return e?e.value:null; };
   const classe = rv('ppConc')||'C25';
   const brita = rv('ppBrita')||'1';
   const aco = rv('ppAco')||'CA-50';
