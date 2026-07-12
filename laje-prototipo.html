@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#4BC300">
+<title>🏗️ Laje Maciça — Simulador Paramétrico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:#F0FFE1;color:#1A1A1A;min-height:100dvh;overflow-x:hidden
+}
+.app{max-width:840px;margin:0 auto;padding:0 12px 40px}
+
+.header{
+  background:linear-gradient(135deg,#4BC300 0%,#78D22D 100%);
+  border-radius:0 0 24px 24px;padding:20px 16px 24px;margin:0 -12px 20px;color:#fff;text-align:center
+}
+.header h1{font-size:1.2rem;font-weight:900;letter-spacing:-0.5px}
+.header .sub{font-size:0.72rem;opacity:.85;font-weight:500;margin:4px 0 8px}
+.header .code{display:inline-block;background:rgba(255,255,255,.15);padding:2px 12px;border-radius:12px;font-size:0.7rem;font-weight:600}
+
+/* Params */
+.params{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:480px){.params{grid-template-columns:1fr}}
+
+.param-card{
+  background:#fff;border-radius:14px;padding:12px 14px;
+  box-shadow:0 2px 8px rgba(75,195,0,.08);
+  transition:box-shadow .2s
+}
+.param-card:focus-within{box-shadow:0 2px 12px rgba(75,195,0,.18)}
+.param-card label{font-size:0.62rem;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.param-card .val{font-size:1rem;font-weight:800;color:#4BC300;margin-bottom:2px}
+.param-card .src{font-size:0.52rem;font-weight:600;padding:1px 6px;border-radius:4px;display:inline-block}
+.src-cype{background:#E8F5DC;color:#3C9600}
+.src-sinapi{background:#FFF3E0;color:#E65100}
+.src-exato{background:#E3F2FD;color:#1565C0}
+
+.param-card select{
+  width:100%;padding:8px 10px;border:2px solid #D6E8C8;border-radius:10px;
+  font-family:inherit;font-size:0.82rem;font-weight:500;background:#fff;outline:none;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 11 11'%3E%3Cpath fill='%23999' d='M5.5 7.5L1 2.5h9z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:28px
+}
+.param-card select:focus{border-color:#4BC300}
+
+.param-card input[type="range"]{
+  width:100%;height:5px;-webkit-appearance:none;appearance:none;
+  background:#D6E8C8;border-radius:3px;outline:none;margin:6px 0
+}
+.param-card input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:#4BC300;cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15)
+}
+.param-note{font-size:0.58rem;color:#aaa;font-weight:500;margin-top:2px}
+
+/* Price */
+.price-box{
+  background:linear-gradient(135deg,#4BC300 0%,#78D22D 100%);
+  border-radius:16px;padding:16px 18px;margin-bottom:14px;
+  color:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px
+}
+.price-box .lbl{font-size:0.62rem;font-weight:600;opacity:.8;text-transform:uppercase;letter-spacing:0.5px}
+.price-box .orig{font-size:0.68rem;opacity:.5;text-decoration:line-through}
+.price-box .amt{font-size:1.8rem;font-weight:900;line-height:1}
+.price-box .unt{font-size:0.78rem;font-weight:600;opacity:.75}
+.price-box .chg{display:inline-block;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:20px;font-size:0.68rem;font-weight:700}
+.price-box .right{text-align:right}
+
+/* Composition table */
+.composicao{background:#fff;border-radius:16px;padding:14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
+.composicao h3{font-size:0.75rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.composicao h3 span{font-size:0.62rem;font-weight:500;color:#999}
+.composicao .legenda{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;font-size:0.6rem}
+.composicao .legenda span{display:flex;align-items:center;gap:4px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot.green{background:#4BC300}
+.dot.orange{background:#FF9800}
+.dot.blue{background:#42A5F5}
+
+.table-wrap{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:0.68rem;min-width:500px}
+table.t th{
+  text-align:left;font-size:0.52rem;font-weight:700;color:#999;
+  text-transform:uppercase;letter-spacing:0.5px;padding:4px 6px;
+  border-bottom:2px solid #E8F5DC;background:#fff
+}
+table.t td{padding:4px 6px;border-bottom:1px solid #f0f0f0;color:#444;vertical-align:top}
+table.t .al{text-align:right;font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+table.t .subst td{background:#F8FFF0;border-bottom:2px solid #4BC300}
+table.t .subst td:first-child{position:relative}
+table.t .subst td:first-child::before{
+  content:'🔄';position:absolute;left:-2px;top:2px;font-size:0.55rem
+}
+table.t .tot td{
+  font-weight:800;color:#1A1A1A;border-top:2px solid #4BC300;
+  padding-top:7px;font-size:0.72rem;background:#F8FFF0
+}
+
+/* Chart */
+.chart-wrap{background:#fff;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(75,195,0,.08)}
+.chart-wrap h3{font-size:0.75rem;font-weight:700;margin-bottom:8px}
+.bars{display:flex;flex-direction:column;gap:4px}
+.br{display:flex;align-items:center;gap:6px}
+.bl{font-size:0.62rem;font-weight:500;color:#666;min-width:65px;text-align:right}
+.bt{flex:1;height:16px;background:#E8F5DC;border-radius:4px;overflow:hidden}
+.bf{height:100%;border-radius:4px;transition:width .5s;display:flex;align-items:center;padding:0 6px;
+  font-size:0.55rem;font-weight:700;color:#fff;justify-content:flex-end;min-width:fit-content}
+.bf.c{background:#4CAF50}
+.bf.s{background:#FF9800}
+.bf.l{background:#42A5F5}
+.bf.e{background:#AB47BC}
+.bf.o{background:#999}
+.bp{font-size:0.62rem;font-weight:600;color:#666;min-width:32px}
+
+/* Notice */
+.notice{
+  background:#FFF8E1;border:1px solid #FFE082;border-radius:12px;
+  padding:10px 14px;margin-bottom:14px;font-size:0.7rem;color:#795548;line-height:1.5
+}
+.notice strong{color:#E65100}
+.notice .src{display:inline-block;background:#E8F5DC;padding:0 6px;border-radius:4px;color:#3C9600;font-size:0.6rem;font-weight:600}
+.notice .src.est{background:#FFF3E0;color:#E65100}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <h1>🏗️ Laje Maciça — Simulador Paramétrico</h1>
+    <p class="sub">Composição completa com substituição de insumos em tempo real</p>
+    <span class="code">EHL010 — CYPE Gerador de Preços Brasil</span>
+  </header>
+
+  <div id="notices"></div>
+
+  <div class="params" id="params">
+    <div class="param-card">
+      <label>🧱 Classe do Concreto</label>
+      <div class="val" id="vConcreto">C25</div>
+      <span class="src src-cype">✅ CYPE real</span>
+      <select id="pConcreto" onchange="calc()">
+        <option value="C20">C20 (15 MPa)</option>
+        <option value="C25" selected>C25 (20 MPa) — referência CYPE</option>
+        <option value="C30">C30 (25 MPa)</option>
+        <option value="C35">C35 (30 MPa)</option>
+      </select>
+      <div class="param-note">C25 = preço real CYPE | demais = SINAPI</div>
+    </div>
+
+    <div class="param-card">
+      <label>🪨 Brita</label>
+      <div class="val" id="vBrita">brita 1</div>
+      <span class="src src-cype">✅ CYPE real</span>
+      <select id="pBrita" onchange="calc()">
+        <option value="0">Brita 0 (R$ 342,95/m³)</option>
+        <option value="1" selected>Brita 1 (R$ 347,46/m³)</option>
+      </select>
+      <div class="param-note">Ambos os preços são reais do CYPE</div>
+    </div>
+
+    <div class="param-card">
+      <label>🔩 Aço</label>
+      <div class="val" id="vAco">CA-50</div>
+      <span class="src src-cype">✅ CYPE real</span>
+      <select id="pAco" onchange="calc()">
+        <option value="CA-50" selected>CA-50 (R$ 11,78/kg) — CYPE</option>
+        <option value="CA-60">CA-60 (R$ 12,84/kg) — SINAPI</option>
+      </select>
+      <div class="param-note">CA-50 = real CYPE | CA-60 = SINAPI</div>
+    </div>
+
+    <div class="param-card">
+      <label>📏 Altura da laje</label>
+      <div class="val" id="vAltura">15 cm</div>
+      <span class="src src-exato">📐 cálculo exato</span>
+      <input type="range" id="pAltura" min="8" max="30" value="15" step="1" oninput="calc()">
+      <div class="param-note">Volume de concreto escala com a altura (ref. 15 cm)</div>
+    </div>
+  </div>
+
+  <div class="price-box">
+    <div>
+      <div class="lbl">Preço base (C25, brita 1, CA-50, 15cm)</div>
+      <div class="orig" id="precoBase">R$ 411,43 / m²</div>
+    </div>
+    <div class="right">
+      <div class="lbl">Preço calculado</div>
+      <div class="amt" id="precoFinal">R$ 411,43</div>
+      <div class="unt">/ m²</div>
+      <div class="chg" id="variacao">—</div>
+    </div>
+  </div>
+
+  <div class="composicao">
+    <h3>📋 Composição <span id="qtdInsumos">— insumos</span></h3>
+    <div class="legenda">
+      <span><span class="dot green"></span> Substituído</span>
+      <span><span class="dot orange"></span> Inalterado</span>
+      <span>Ajuste de altura escala o concreto</span>
+    </div>
+    <div class="table-wrap">
+      <table class="t" id="tabela">
+        <thead><tr>
+          <th>Código</th><th>Descrição</th><th>Un</th><th>Rend.</th>
+          <th>Preço Un.</th><th>Custo</th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <h3>📊 Distribuição dos custos</h3>
+    <div class="bars" id="bars"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+//  DADOS REAIS DA COMPOSIÇÃO — LAJE MACIÇA EHL010
+// ═══════════════════════════════════════════════════════════════════
+
+// Composição base extraída do site CYPE (19 insumos)
+const COMPOSICAO = [
+  {cod:'mt08ebr010c', un:'m²',  rend:0.083, pu:17.08,  custo:1.42,  desc:'Painel de madeira compensada, resinado 12mm', cat:'Fôrmas'},
+  {cod:'mt08ebr055',  un:'m',   rend:0.167, pu:10.23,  custo:1.71,  desc:'Pontaletes de madeira serrada 7,5×7,5cm', cat:'Fôrmas'},
+  {cod:'mt08ebr040e', un:'m',   rend:0.600, pu:10.62,  custo:6.37,  desc:'Tábua de madeira serrada 2,5×20cm', cat:'Fôrmas'},
+  {cod:'mt08ebr030a', un:'Un',  rend:0.013, pu:62.32,  custo:0.81,  desc:'Escora metálica telescópica até 3m', cat:'Fôrmas'},
+  {cod:'mt08var200c', un:'kg',  rend:0.040, pu:4.37,   custo:0.17,  desc:'Pregos comuns 17×21 com cabeça', cat:'Fôrmas'},
+  {cod:'mt08dba010b', un:'l',   rend:0.030, pu:4.60,   custo:0.14,  desc:'Agente desmoldante para fôrmas', cat:'Fôrmas'},
+  {cod:'mt07aco020h', un:'Un',  rend:3.000, pu:0.23,   custo:0.69,  desc:'Separador certificado para lajes maciças', cat:'Aço'},
+  {cod:'mt07aco070f', un:'kg',  rend:22.050,pu:11.78,  custo:259.75,desc:'Aço CA-50 em barras nervuradas', cat:'Aço', varia:'aco'},
+  {cod:'mt08var050',  un:'kg',  rend:0.294, pu:3.83,   custo:1.13,  desc:'Arame galvanizado para atar 1,30mm', cat:'Aço'},
+  {cod:'mt10haf080iec',un:'m³', rend:0.158, pu:347.46, custo:54.90, desc:'Concreto C25 brita 1 S100', cat:'Concreto', varia:'concreto'},
+  {cod:'mt08cur020a', un:'l',   rend:0.150, pu:3.99,   custo:0.60,  desc:'Agente filmógeno para cura', cat:'Concreto'},
+  {cod:'mq06bhe010',  un:'h',   rend:0.015, pu:744.87, custo:11.17, desc:'Caminhão bomba de concreto', cat:'Equipamento'},
+  {cod:'mo044',       un:'h',   rend:0.616, pu:35.26,  custo:21.72, desc:'Montador de fôrmas', cat:'Mão de obra'},
+  {cod:'mo091',       un:'h',   rend:0.616, pu:33.32,  custo:20.53, desc:'Ajudante de montador de fôrmas', cat:'Mão de obra'},
+  {cod:'mo043',       un:'h',   rend:0.315, pu:35.26,  custo:11.11, desc:'Armador', cat:'Mão de obra'},
+  {cod:'mo090',       un:'h',   rend:0.292, pu:33.32,  custo:9.73,  desc:'Ajudante de armador', cat:'Mão de obra'},
+  {cod:'mo045',       un:'h',   rend:0.008, pu:35.26,  custo:0.28,  desc:'Oficial de concretagem', cat:'Mão de obra'},
+  {cod:'mo092',       un:'h',   rend:0.034, pu:33.32,  custo:1.13,  desc:'Ajudante de concretagem', cat:'Mão de obra'},
+  {cod:'%',           un:'%',   rend:2.000, pu:0,      custo:0,     desc:'Custos diretos complementares (2%)', cat:'Complementares', varia:'comp'},
+];
+
+// Preços de concreto por classe e brita (CYPE real + SINAPI)
+const CONCRETO = {
+  C20: {b0:305.76, b1:308.56, src:'SINAPI', desc:'C20 (15 MPa)'},
+  C25: {b0:342.95, b1:347.46, src:'CYPE',  desc:'C25 (20 MPa)'},
+  C30: {b0:392.18, b1:396.10, src:'SINAPI', desc:'C30 (25 MPa)'},
+  C35: {b0:440.34, b1:444.75, src:'SINAPI', desc:'C35 (30 MPa)'},
+};
+
+const ACO = {
+  'CA-50': {pu:11.78, src:'CYPE', desc:'CA-50'},
+  'CA-60': {pu:12.84, src:'SINAPI', desc:'CA-60'},
+};
+
+// ═══════════════════════════════════════════════════════════════════
+//  CÁLCULO
+// ═══════════════════════════════════════════════════════════════════
+function calc() {
+  const classe = document.getElementById('pConcreto').value;
+  const brita = document.getElementById('pBrita').value;
+  const aco = document.getElementById('pAco').value;
+  const altura = parseInt(document.getElementById('pAltura').value);
+  const refAltura = 15;
+
+  const conc = CONCRETO[classe];
+  const concPrice = brita === '0' ? conc.b0 : conc.b1;
+  const acoPrice = ACO[aco].pu;
+  const acoSrc = ACO[aco].src;
+  const concSrc = conc.src;
+
+  let rows = '';
+  let novoTotal = 0;
+  let substCount = 0;
+  let baseSoma = 0;
+
+  for (const ins of COMPOSICAO) {
+    let pu = ins.pu;
+    let rend = ins.rend;
+    let custo = ins.custo;
+    let substituido = false;
+    let novaLinha = {...ins};
+
+    if (ins.varia === 'concreto') {
+      // Substitui concreto: novo preço unitário + altura
+      pu = concPrice;
+      rend = 0.158 * (altura / refAltura);
+      custo = pu * rend;
+      substituido = true;
+      novaLinha = {...ins, pu, rend, custo};
+      substCount++;
+    } else if (ins.varia === 'aco') {
+      // Substitui aço
+      pu = acoPrice;
+      custo = pu * rend;
+      substituido = true;
+      novaLinha = {...ins, pu, custo};
+      substCount++;
+    } else if (ins.varia === 'comp') {
+      // Cálculo dos complementares (2% sobre a base)
+      // Será calculado no final
+      continue;
+    }
+
+    baseSoma += custo;
+    novoTotal += custo;
+
+    const cls = substituido ? 'subst' : '';
+    const puStr = pu.toFixed(2).replace('.',',');
+    const custoStr = custo.toFixed(2).replace('.',',');
+    const rendStr = rend.toFixed(3).replace('.',',').replace(/0+$/,'');
+
+    rows += `<tr class="${cls}">
+      <td>${ins.cod}</td>
+      <td>${ins.desc}${substituido ? ' 🔄' : ''}</td>
+      <td>${ins.un}</td>
+      <td class="al">${rendStr}</td>
+      <td class="al">R$ ${puStr}</td>
+      <td class="al">R$ ${custoStr}</td>
+    </tr>`;
+  }
+
+  // Complementares: 2% da soma base
+  const compCusto = baseSoma * 0.02;
+  novoTotal += compCusto;
+
+  rows += `<tr>
+    <td>%</td>
+    <td>Custos diretos complementares (2%)</td>
+    <td>%</td>
+    <td class="al">2,000</td>
+    <td class="al">—</td>
+    <td class="al">R$ ${compCusto.toFixed(2).replace('.',',')}</td>
+  </tr>`;
+
+  // Total
+  const precoBase = 411.43;
+  const diff = novoTotal - precoBase;
+  const diffPct = (diff / precoBase * 100);
+
+  rows += `<tr class="tot">
+    <td colspan="3"><strong>TOTAL</strong></td>
+    <td></td>
+    <td></td>
+    <td class="al"><strong>R$ ${novoTotal.toFixed(2).replace('.',',')}</strong></td>
+  </tr>`;
+
+  // Update UI
+  document.getElementById('tbody').innerHTML = rows;
+  document.getElementById('precoFinal').textContent = 'R$ ' + novoTotal.toFixed(2).replace('.',',');
+  document.getElementById('qtdInsumos').textContent = COMPOSICAO.length + ' insumos';
+
+  if (Math.abs(diff) < 0.01) {
+    document.getElementById('variacao').textContent = '—';
+  } else {
+    document.getElementById('variacao').innerHTML =
+      (diff > 0 ? '▲' : '▼') + ' ' + Math.abs(diffPct).toFixed(1) + '% (R$ ' +
+      (diff > 0 ? '+' : '') + diff.toFixed(2).replace('.',',') + ')';
+  }
+
+  // Valores dos parâmetros
+  document.getElementById('vConcreto').textContent = classe + ' ' + conc.desc.slice(-8);
+  document.getElementById('vBrita').textContent = 'brita ' + brita;
+  document.getElementById('vAco').textContent = aco;
+  document.getElementById('vAltura').textContent = altura + ' cm';
+  document.getElementById('precoBase').textContent =
+    'R$ 411,43 / m² (C25, brita 1, CA-50, 15cm)';
+
+  // Notices
+  const srcParts = [];
+  if (concSrc === 'SINAPI') srcParts.push(`🧱 ${classe}: 🧾 SINAPI`);
+  if (acoSrc === 'SINAPI') srcParts.push(`🔩 ${aco}: 🧾 SINAPI`);
+  const aviso = srcParts.length
+    ? `<div class="notice">
+        <strong>📌 Dados estimados:</strong> ${srcParts.join(' · ')}.
+        Os demais insumos são preços reais do CYPE.
+        <span class="src">CYPE</span>
+        <span class="src est">SINAPI</span>
+       </div>`
+    : '<div class="notice">✅ <strong>Todos os dados são reais do CYPE.</strong> Composição exata da Laje Maciça (EHL010).</div>';
+  document.getElementById('notices').innerHTML = aviso;
+
+  // Bar chart
+  const cats = {'Concreto':0,'Aço':0,'Mão de obra':0,'Equipamento':0,'Fôrmas':0,'Complementares':0};
+  const cores = {'Concreto':'c','Aço':'s','Mão de obra':'l','Equipamento':'e','Fôrmas':'o','Complementares':'o'};
+  for (const ins of COMPOSICAO) {
+    let val = ins.custo;
+    if ('concreto' === ins.varia) {
+      val = concPrice * 0.158 * (altura/refAltura);
+    } else if ('aco' === ins.varia) {
+      val = acoPrice * ins.rend;
+    }
+    if (ins.cat in cats) cats[ins.cat] += val;
+  }
+  if (compCusto > 0) cats['Complementares'] = compCusto;
+
+  const maxVal = Math.max(...Object.values(cats), 1);
+  let bars = '';
+  for (const [cat, val] of Object.entries(cats)) {
+    if (val <= 0) continue;
+    const pct = (val / novoTotal * 100);
+    const width = Math.max(val / maxVal * 100, 4);
+    bars += `<div class="br">
+      <span class="bl">${cat}</span>
+      <div class="bt"><div class="bf ${cores[cat]}" style="width:${width}%">R$ ${val.toFixed(2).replace('.',',')}</div></div>
+      <span class="bp">${pct.toFixed(0)}%</span>
+    </div>`;
+  }
+  document.getElementById('bars').innerHTML = bars;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════
+calc();
+</script>
+</body>
+</html>

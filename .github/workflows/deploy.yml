@@ -34,6 +34,7 @@ jobs:
           cp precos.html dist/ 2>/dev/null || true
           cp precos_estruturas.json dist/ 2>/dev/null || true
           cp simulador.html dist/ 2>/dev/null || true
+          cp laje-prototipo.html dist/ 2>/dev/null || true
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
