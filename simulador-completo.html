@@ -351,7 +351,7 @@ function recalc(){
   }
   cats['Comp.'] = comp;
   const maxV = Math.max(...Object.values(cats),1);
-  const cor = {Concreto:'c',Aço:'s','Mão obra':'l',Equip.:'e',Fôrmas:'f',Comp.:'o',Outros:'o'};
+  const cor = {Concreto:'c',Aço:'s','Mão obra':'l','Equip.':'e','Fôrmas':'f','Comp.':'o',Outros:'o'};
   let bars = '';
   for(const [cat,val] of Object.entries(cats)){
     if(val<=0) continue;
