@@ -277,9 +277,12 @@ function render() {
   if (!item) return;
 
   const params = {
-    brita: document.getElementById('pBrita').value,
-    altura: parseInt(document.getElementById('pAltura').value),
+    brita: el('pBrita') ? el('pBrita').value : '1',
+    altura: el('pAltura') ? parseInt(el('pAltura').value) : 15,
   };
+
+  // Helper pra evitar null errors na primeira renderização
+  function el(id) { return document.getElementById(id); }
 
   const result = calcItem(item, params);
   const mc = document.getElementById('mainContent');
